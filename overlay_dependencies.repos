@@ -4,4 +4,4 @@ repositories:
     inspection_gui:
         type: git
         url: https://github.com/cacton77/inspection_gui.git
-        version: 29dee19
+        version: c186527
