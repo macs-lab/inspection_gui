@@ -1,0 +1,35 @@
+camera:
+  fov:
+    width_mm: 192
+    height_mm: 108
+    width_px: 1920
+    height_px: 1080
+  focal_distance_mm: 200
+  roi:
+    width_px: 500
+    height_px: 500
+  dof_mm: 20.0
+  frame:
+    parent: panda_hand
+    child: camera_link
+    x: 10
+    y: 0
+    z: 0
+    roll: 0
+    pitch: -1.54
+    yaw: 0
+part:
+  model: /home/col/Inspection/Parts/2_5D_coupon.stl
+  model_units: m
+  point_cloud: /home/col/Inspection/Parts/2_5D_coupon_cropped.ply
+  point_cloud_units: m
+  point_cloud_color: 0.5 0.5 0.5
+  frame:
+    parent: world
+    child: part_frame
+    x: 0.5
+    y: 0
+    z: 0
+    roll: 0
+    pitch: 0
+    yaw: 0

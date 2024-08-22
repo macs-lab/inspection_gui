@@ -1,0 +1,79 @@
+camera:
+  fov:
+    width_mm: 192
+    height_mm: 108
+    width_px: 1920
+    height_px: 1080
+  focal_distance_mm: 200
+  roi:
+    width_px: 200
+    height_px: 200
+  dof_mm: 2.0
+  frame:
+    parent: panda_hand
+    child: camera_link
+    x: 10
+    y: 0
+    z: 0
+    roll: 0
+    pitch: -1.54
+    yaw: 0
+part:
+  model: /root/Inspection/Parts/blade.stl
+  model_units: mm
+  point_cloud: /root/Inspection/Parts/blade.ply
+  point_cloud_units: mm
+  point_cloud_color: 0.5 0.5 0.5
+  frame:
+    parent: world
+    child: part_frame
+    x: 1
+    y: 0
+    z: 0.7
+    roll: 0
+    pitch: 0
+    yaw: 0
+inspection_root: /root/Inspection
+defects:
+  - name: "Default"
+    camera:
+        fov:
+          width_mm: 304.8
+          height_mm: 171.45
+          width_px: 6240
+          height_px: 4160
+        focal_distance_mm: 300.0
+        roi:
+          width_px: 6240
+          height_px: 4160
+        dof_mm: 2.0
+  - name: "1mm pit"
+    camera: 
+        fov:
+          width_mm: 91.44
+          height_mm: 51.435
+        focal_distance_mm: 90.0
+        roi:
+          width_px: 6240
+          height_px: 4160
+        dof_mm: 2.0
+  - name: "15 micron scratch"
+    camera: 
+        fov:
+          width_mm: 152.4
+          height_mm: 85.725
+        focal_distance_mm: 150.0
+        roi:
+          width_px: 6240
+          height_px: 4160
+        dof_mm: 2.0
+  - name: "1mm bur"
+    camera: 
+        fov:
+          width_mm: 304.8
+          height_mm: 171.45
+        focal_distance_mm: 300.0
+        roi:
+          width_px: 6240
+          height_px: 4160
+        dof_mm: 2.0

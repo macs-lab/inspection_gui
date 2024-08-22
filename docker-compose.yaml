@@ -23,7 +23,7 @@ services:
       - ${XAUTHORITY:-$HOME/.Xauthority}:/root/.Xauthority
       # Allow access to host devices
       - /dev:/dev
-      - ~/Inspection:/root/Inspection
+      # - ~/Inspection:/root/Inspection
     device_cgroup_rules:
       - 'c *:* rmw'
 
