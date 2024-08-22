@@ -2,9 +2,9 @@ source /opt/ros/${ROS_DISTRO}/setup.bash
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 
 # Source the base workspace, if built
-if [ -f /tool_ws/install/setup.bash ]
+if [ -f /base_ws/install/setup.bash ]
 then
-    source /tool_ws/install/setup.bash
+    source /base_ws/install/setup.bash
 fi
 
 # Source the overlay workspace, if built
