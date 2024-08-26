@@ -59,8 +59,8 @@ RUN source /base_ws/install/setup.bash \
     && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
     && colcon build --symlink-install
 
-RUN mkdir /root/Inspection
-COPY Parts /root/Inspection/Parts
+RUN mkdir -p /root/Inspection/Parts
+# COPY Parts /root/Inspection/Parts
 
 # Set environment variables
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
