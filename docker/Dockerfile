@@ -80,7 +80,6 @@ FROM base AS devel
 # Create an overlay Colcon workspace
 RUN mkdir -p /overlay_ws/src
 WORKDIR /overlay_ws/src
-COPY ./inspection_gui inspection_gui
 
 WORKDIR /overlay_ws
 RUN source /base_ws/install/setup.bash \
@@ -93,9 +92,9 @@ RUN mkdir -p /root/Inspection/Parts
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 # Set up the entrypoint
-COPY ./docker/entrypoint.sh /
+COPY ./docker/devel_entrypoint.sh /
 COPY ./bashrc /root/.bashrc
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/devel_entrypoint.sh" ]
 
 CMD ["bash"]
 

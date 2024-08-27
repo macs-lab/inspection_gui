@@ -37,15 +37,21 @@ services:
       target: overlay
 
   # Dev container
-  dev:
-    extends: overlay
-    command: /bin/bash
+  devel:
+    extends: base
+    image: inspection_eoat:devel
+    command: ros2 run inspection_gui gui_node
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: devel
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ./inspection_gui:/overlay_ws/src/inspection_gui
 
   # Test container
   gui:
