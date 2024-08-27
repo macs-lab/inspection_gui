@@ -71,3 +71,31 @@ COPY ./bashrc /root/.bashrc
 ENTRYPOINT [ "/entrypoint.sh" ]
 
 CMD ["bash"]
+
+#############################################
+# Devel Image for Inspection Tool Control #
+#############################################
+FROM base AS devel
+
+# Create an overlay Colcon workspace
+RUN mkdir -p /overlay_ws/src
+WORKDIR /overlay_ws/src
+COPY ./inspection_gui inspection_gui
+
+WORKDIR /overlay_ws
+RUN source /base_ws/install/setup.bash \
+    && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
+    && colcon build --symlink-install
+
+RUN mkdir -p /root/Inspection/Parts
+
+# Set environment variables
+ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+
+# Set up the entrypoint
+COPY ./docker/entrypoint.sh /
+COPY ./bashrc /root/.bashrc
+ENTRYPOINT [ "/entrypoint.sh" ]
+
+CMD ["bash"]
+
