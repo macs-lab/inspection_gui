@@ -6,7 +6,7 @@ camera:
     height_px: 4160
   focal_distance_mm: 300.0
   roi:
-    width_px: 6240
+    width_px: 4160
     height_px: 4160
   dof_mm: 20.0
   frame:
@@ -44,7 +44,7 @@ defects:
           height_px: 4160
         focal_distance_mm: 300.0
         roi:
-          width_px: 6240
+          width_px: 4160
           height_px: 4160
         dof_mm: 20.0
   - name: "9 micron scratch"
@@ -54,7 +54,7 @@ defects:
           height_mm: 51.435
         focal_distance_mm: 90.0
         roi:
-          width_px: 6240
+          width_px: 4160
           height_px: 4160
         dof_mm: 20.0
   - name: "15 micron scratch"
@@ -64,7 +64,7 @@ defects:
           height_mm: 85.725
         focal_distance_mm: 150.0
         roi:
-          width_px: 6240
+          width_px: 4160
           height_px: 4160
         dof_mm: 20.0
   - name: "30 micron scratch"
@@ -74,6 +74,6 @@ defects:
           height_mm: 171.45
         focal_distance_mm: 300.0
         roi:
-          width_px: 6240
+          width_px: 4160
           height_px: 4160
         dof_mm: 20.0
