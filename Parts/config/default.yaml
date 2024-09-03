@@ -52,7 +52,7 @@ defects:
         fov:
           width_mm: 91.44
           height_mm: 51.435
-        focal_distance_mm: 90.0
+        focal_distance_mm: 350.0
         roi:
           width_px: 4160
           height_px: 4160
