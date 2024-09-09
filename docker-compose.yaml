@@ -24,6 +24,7 @@ services:
       # Allow access to host devices
       - /dev:/dev
       - ./Parts:/root/Inspection/Parts
+      - ./Lights:/root/Inspection/Lights
     device_cgroup_rules:
       - 'c *:* rmw'
 
