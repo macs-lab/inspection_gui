@@ -10,7 +10,7 @@ camera:
     height_px: 4160
   dof_mm: 20.0
   frame:
-    parent: panda_hand
+    parent: tool0
     child: camera_link
     x: 0
     y: 0

@@ -10,7 +10,7 @@ camera:
     height_px: 200
   dof_mm: 2.0
   frame:
-    parent: panda_hand
+    parent: tool0
     child: camera_link
     x: 10
     y: 0
@@ -27,12 +27,12 @@ part:
   frame:
     parent: world
     child: part_frame
-    x: 1
+    x: 0.8
     y: 0
-    z: 0.7
+    z: 0.35
     roll: 0
     pitch: 0
-    yaw: 0
+    yaw: -1.57 
 inspection_root: /root/Inspection
 defects:
   - name: "Default"
