@@ -14,9 +14,9 @@ camera:
     child: camera_link
     x: 0
     y: 0
-    z: 0
-    roll: 0
-    pitch: 0 
+    z: 0.06
+    roll: -1.57
+    pitch: 0
     yaw: 0
 part:
   model: /root/Inspection/Parts/2_5D_coupon.stl

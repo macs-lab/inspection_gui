@@ -12,6 +12,10 @@ RUN apt-get update \
     && apt-get install -y wget curl neovim python3-pip\
     && rm -rf /var/lib/apt/lists/*
 
+# Install ROS2 dependencies
+RUN apt-get update \
+    && apt-get install -y ros-humble-ur
+
 # Install rpi-ws281x-python package
 RUN pip install open3d==0.18.0 numpy==1.26.4 ultralytics pytransform3d bayesian-optimization
 
@@ -53,6 +57,7 @@ RUN mkdir -p /overlay_ws/src
 WORKDIR /overlay_ws/src
 COPY overlay_dependencies.repos .
 RUN vcs import < overlay_dependencies.repos
+COPY inspection_robot_service .
 
 WORKDIR /overlay_ws
 RUN source /base_ws/install/setup.bash \
