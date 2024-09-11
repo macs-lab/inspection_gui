@@ -64,3 +64,13 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+
+  moveit:
+    extends: overlay
+    command: ros2 launch inspection_robot_service ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.1.102 launch_rviz:=false initial_joint_controller:=joint_trajectory_controller && ros2 launch inspection_robot_service ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true && ros2 launch inspection_robot_service hello_moveit_ur_launch.py
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw

@@ -104,7 +104,7 @@ void move_to_pose(const std::shared_ptr<inspection_srvs::srv::MoveToPose::Reques
 
     moveit::planning_interface::MoveGroupInterface::Plan plan;
     // Try to compute the Cartesian path
-    fraction = move_group_interface->computeCartesianPath(waypoints, 0.01, 0.0, plan.trajectory_, false);
+    fraction = move_group_interface->computeCartesianPath(waypoints, 0.01, 0.0, plan.trajectory, false);
     // waypoints, max_step (m), jump_threshold (m), trajectory, avoid_collisions
     
     // Temporary
@@ -137,7 +137,7 @@ int main(int argc, char** argv)
     std::shared_ptr<moveit::planning_interface::PlanningSceneInterface> planning_scene_interface = 
         std::make_shared<moveit::planning_interface::PlanningSceneInterface>();
     
-    addBox(planning_scene_interface, move_group_interface);
+    // addBox(planning_scene_interface, move_group_interface);
     auto service = node->create_service<inspection_srvs::srv::MoveToPose>("/inspection/move_to_pose",  
         [move_group_interface](const std::shared_ptr<inspection_srvs::srv::MoveToPose::Request> request,
         std::shared_ptr<inspection_srvs::srv::MoveToPose::Response> response) {

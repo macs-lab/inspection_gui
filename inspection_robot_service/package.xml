@@ -13,7 +13,7 @@
   <depend>moveit_ros_planning_interface</depend>
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
-  <depend>ros_ur_driver</depend>
+  <!-- <depend>ros_ur_driver</depend> -->
   <depend>std_msgs</depend> 
   <depend>moveit_msgs</depend>
   <depend>moveit_visual_tools</depend>

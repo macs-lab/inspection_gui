@@ -12,10 +12,6 @@ RUN apt-get update \
     && apt-get install -y wget curl neovim python3-pip\
     && rm -rf /var/lib/apt/lists/*
 
-# Install ROS2 dependencies
-RUN apt-get update \
-    && apt-get install -y ros-humble-ur
-
 # Install rpi-ws281x-python package
 RUN pip install open3d==0.18.0 numpy==1.26.4 ultralytics pytransform3d bayesian-optimization
 
@@ -46,6 +42,9 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
     && apt-get update -y \
     && rosdep install --from-paths src --ignore-src --rosdistro ${ROS_DISTRO} -y \
     && colcon build --symlink-install
+
+RUN apt-get update \
+    && apt-get install -y ros-humble-ur
 
 #############################################
 # Overlay Image for Inspection Tool Control #

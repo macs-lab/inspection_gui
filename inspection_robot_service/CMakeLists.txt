@@ -12,19 +12,23 @@ find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED) # ADD PACKAGE
 find_package(ament_cmake_python REQUIRED)
-# find_package(inspection_msgs REQUIRED)  # ADD PACKAGE
-find_package(inspection_srvs REQUIRED)  # ADD PACKAGE
-find_package(tutorial_interfaces REQUIRED)  # ADD PACKAGE
 
+# find_package(inspection_msgs REQUIRED)  # ADD PACKAGE
+find_package(inspection_srvs REQUIRED) # ADD PACKAGE
+
+# find_package(tutorial_interfaces REQUIRED)  # ADD PACKAGE
 add_executable(inspection_robot_service src/inspection_robot_service.cpp) # Name in launch file, then executable in launch file
 
 target_include_directories(inspection_robot_service PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${moveit_msgs_INCLUDE_DIRS})
-target_compile_features(inspection_robot_service PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(inspection_robot_service PUBLIC c_std_99 cxx_std_17) # Require C99 and C++17
+
 ament_target_dependencies(inspection_robot_service
-  tutorial_interfaces
+
+  # tutorial_interfaces
+
   # inspection_msgs
   inspection_srvs
   "moveit_ros_planning_interface"
@@ -32,7 +36,7 @@ ament_target_dependencies(inspection_robot_service
   "rclpy"
 )
 
-install(TARGETS 
+install(TARGETS
   inspection_robot_service
   DESTINATION lib/${PROJECT_NAME})
 
@@ -42,7 +46,7 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}/
 )
 
-## Python stuff. Not in a standard c++ only package
+# # Python stuff. Not in a standard c++ only package
 # Install Python modules
 ament_python_install_package(${PROJECT_NAME})
 
@@ -58,5 +62,5 @@ install(PROGRAMS
   src/no_autofocus.py
 
   DESTINATION lib/${PROJECT_NAME})
-  
+
 ament_package()
