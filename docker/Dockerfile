@@ -56,7 +56,6 @@ RUN mkdir -p /overlay_ws/src
 WORKDIR /overlay_ws/src
 COPY overlay_dependencies.repos .
 RUN vcs import < overlay_dependencies.repos
-COPY inspection_robot_service .
 
 WORKDIR /overlay_ws
 RUN source /base_ws/install/setup.bash \

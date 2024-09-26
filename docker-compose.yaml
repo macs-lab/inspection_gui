@@ -41,7 +41,7 @@ services:
   devel:
     extends: base
     image: inspection_eoat:devel
-    command: ros2 run inspection_gui gui_node
+    command: ros2 run inspection_gui gui
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -57,17 +57,7 @@ services:
   # Test container
   gui:
     extends: overlay
-    command: ros2 run inspection_gui gui_node
-    environment:
-      - DISPLAY=${DISPLAY}
-      - QT_X11_NO_MITSHM=1
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
-
-  moveit:
-    extends: overlay
-    command: ros2 launch inspection_robot_service ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.1.102 launch_rviz:=false initial_joint_controller:=joint_trajectory_controller && ros2 launch inspection_robot_service ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true && ros2 launch inspection_robot_service hello_moveit_ur_launch.py
+    command: ros2 run inspection_gui gui
     environment:
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
