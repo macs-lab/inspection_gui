@@ -16,7 +16,7 @@ camera:
     y: 0
     z: 0.06
     roll: -1.57
-    pitch: 0
+    pitch: 3.14159
     yaw: 0
 part:
   model: /root/Inspection/Parts/blade.stl

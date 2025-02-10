@@ -35,6 +35,14 @@ RUN apt-get update \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-rmw-cyclonedds-cpp
 
+# Install MoveIt2
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-moveit
+
+# Install UR
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-ur
+
 ARG DEBIAN_FRONTEND=dialog
 
 # Create base Colcon workspace with external dependencies

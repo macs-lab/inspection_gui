@@ -1,7 +1,7 @@
 version: "3"
 services:
   base:
-    image: inspection_eoat:base
+    image: inspection:base
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -25,13 +25,14 @@ services:
       - /dev:/dev
       - ./Parts:/root/Inspection/Parts
       - ./Lights:/root/Inspection/Lights
+      - ./data:/root/Inspection/data
     device_cgroup_rules:
       - 'c *:* rmw'
 
   # Overlay image containing the example source code.
   overlay:
     extends: base
-    image: inspection_eoat:overlay
+    image: inspection:overlay
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -40,7 +41,7 @@ services:
   # Dev container
   devel:
     extends: base
-    image: inspection_eoat:devel
+    image: inspection:devel
     command: ros2 run inspection_gui gui
     build:
       context: .
@@ -53,6 +54,7 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
       - ./inspection_gui:/overlay_ws/src/inspection_gui
+      - ./inspection_robot_service:/overlay_ws/src/inspection_robot_service
 
   # Test container
   gui:
@@ -64,3 +66,27 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+
+  ur_control:
+    extends: devel
+    command: ros2 launch inspection_robot_service ur_control.launch.py ur_type:=ur5e robot_ip:=${ROBOT_IP:-172.17.0.2} launch_rviz:=false initial_joint_controller:=joint_trajectory_controller
+
+  ur_moveit:
+    extends: devel
+    command: ros2 launch inspection_robot_service ur_moveit.launch.py ur_type:=ur5e launch_rviz:=true
+
+  hello_moveit:
+    extends: devel
+    command: ros2 launch inspection_robot_service hello_moveit_ur_launch.py
+
+  manual_move:
+    extends: devel
+    command: ros2 run inspection_robot_service focus_manual_move.py
+
+  autofocus:
+    extends: devel
+    command: ros2 run inspection_robot_service single_speed_autofocus.py
+
+  multi_speed_autofocus:
+    extends: devel
+    command: ros2 run inspection_robot_service multi_speed_autofocus.py
