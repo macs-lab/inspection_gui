@@ -4,3 +4,8 @@ repositories:
         type: git
         url: https://github.com/macs-lab/InspectionInterfaces.git
         version: fca5eed
+
+    twist_mux:
+        type: git
+        url: https://github.com/ros-teleop/twist_mux.git
+    
