@@ -79,18 +79,6 @@ services:
     extends: devel
     command: ros2 launch inspection_robot_service hello_moveit_ur_launch.py
 
-  manual_move:
-    extends: devel
-    command: ros2 run inspection_robot_service focus_manual_move.py
-
-  autofocus:
-    extends: devel
-    command: ros2 run inspection_robot_service single_speed_autofocus.py
-
-  multi_speed_autofocus:
-    extends: devel
-    command: ros2 run inspection_robot_service multi_speed_autofocus.py
-
-  teleop:
+  joy:
     extends: overlay
-    command: ros2 run inspection_teleop joy_to_twist
+    command: ros2 run joy joy_node

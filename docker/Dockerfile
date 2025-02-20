@@ -43,6 +43,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-ur
 
+# Install joy package
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-joy
+
 ARG DEBIAN_FRONTEND=dialog
 
 # Create base Colcon workspace with external dependencies
