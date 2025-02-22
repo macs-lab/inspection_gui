@@ -26,8 +26,16 @@ services:
       - ./Parts:/root/Inspection/Parts
       - ./Lights:/root/Inspection/Lights
       - ./data:/root/Inspection/data
+      - ./uw_cell_description:/base_ws/src/uw_cell_description
     device_cgroup_rules:
       - 'c *:* rmw'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
 
   # Overlay image containing the example source code.
   overlay:

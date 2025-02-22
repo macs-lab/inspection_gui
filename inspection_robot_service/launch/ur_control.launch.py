@@ -24,9 +24,11 @@ def launch_setup(context, *args, **kwargs):
     tf_prefix = LaunchConfiguration("tf_prefix")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     fake_sensor_commands = LaunchConfiguration("fake_sensor_commands")
-    controller_spawner_timeout = LaunchConfiguration("controller_spawner_timeout")
+    controller_spawner_timeout = LaunchConfiguration(
+        "controller_spawner_timeout")
     initial_joint_controller = LaunchConfiguration("initial_joint_controller")
-    activate_joint_controller = LaunchConfiguration("activate_joint_controller")
+    activate_joint_controller = LaunchConfiguration(
+        "activate_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
     headless_mode = LaunchConfiguration("headless_mode")
     launch_dashboard_client = LaunchConfiguration("launch_dashboard_client")
@@ -46,32 +48,40 @@ def launch_setup(context, *args, **kwargs):
     trajectory_port = LaunchConfiguration("trajectory_port")
 
     joint_limit_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "joint_limits.yaml"]
+        [FindPackageShare(description_package), "config",
+         ur_type, "joint_limits.yaml"]
     )
     kinematics_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "default_kinematics.yaml"]
+        [FindPackageShare("uw_cell_description"), "config",
+         ur_type, "robot_callibration.yaml"]
     )
     physical_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "physical_parameters.yaml"]
+        [FindPackageShare(description_package), "config",
+         ur_type, "physical_parameters.yaml"]
     )
     visual_params = PathJoinSubstitution(
-        [FindPackageShare(description_package), "config", ur_type, "visual_parameters.yaml"]
+        [FindPackageShare(description_package), "config",
+         ur_type, "visual_parameters.yaml"]
     )
     script_filename = PathJoinSubstitution(
-        [FindPackageShare("ur_client_library"), "resources", "external_control.urscript"]
+        [FindPackageShare("ur_client_library"), "resources",
+         "external_control.urscript"]
     )
     input_recipe_filename = PathJoinSubstitution(
-        [FindPackageShare("ur_robot_driver"), "resources", "rtde_input_recipe.txt"]
+        [FindPackageShare("ur_robot_driver"), "resources",
+         "rtde_input_recipe.txt"]
     )
     output_recipe_filename = PathJoinSubstitution(
-        [FindPackageShare("ur_robot_driver"), "resources", "rtde_output_recipe.txt"]
+        [FindPackageShare("ur_robot_driver"), "resources",
+         "rtde_output_recipe.txt"]
     )
 
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare(description_package), "urdf", description_file]),
+            PathJoinSubstitution(
+                [FindPackageShare(description_package), "urdf", description_file]),
             " ",
             "robot_ip:=",
             robot_ip,
@@ -210,7 +220,8 @@ def launch_setup(context, *args, **kwargs):
 
     dashboard_client_node = Node(
         package="ur_robot_driver",
-        condition=IfCondition(launch_dashboard_client) and UnlessCondition(use_fake_hardware),
+        condition=IfCondition(launch_dashboard_client) and UnlessCondition(
+            use_fake_hardware),
         executable="dashboard_client",
         name="dashboard_client",
         output="screen",
@@ -355,7 +366,8 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "ur_type",
             description="Type/series of used UR robot.",
-            choices=["ur3", "ur3e", "ur5", "ur5e", "ur10", "ur10e", "ur16e", "ur20"],
+            choices=["ur3", "ur3e", "ur5", "ur5e",
+                     "ur10", "ur10e", "ur16e", "ur20"],
         )
     )
     declared_arguments.append(
@@ -468,7 +480,8 @@ def generate_launch_description():
         )
     )
     declared_arguments.append(
-        DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?")
+        DeclareLaunchArgument(
+            "launch_rviz", default_value="true", description="Launch RViz?")
     )
     declared_arguments.append(
         DeclareLaunchArgument(

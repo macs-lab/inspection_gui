@@ -4,6 +4,9 @@
 source /opt/ros/${ROS_DISTRO}/setup.bash
 source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
 
+cd /base_ws
+colcon build
+
 # Source the base workspace, if built
 if [ -f /base_ws/install/setup.bash ]
 then
