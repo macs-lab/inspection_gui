@@ -2,7 +2,7 @@ lights:
   white_balance:
     red: 1.0
     green: 0.8
-    blue: 0.5
+    blue: 0.325
 camera:
   fov:
     width_mm: 304.8

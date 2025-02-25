@@ -1,12 +1,12 @@
-FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04 as base
+FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04 as base
 SHELL ["/bin/bash", "-c"]
 
 ARG GCC_VERSION=12
 ARG CLANG_VARION=17
 ARG CMAKE_VERSION=3.28.3
-ARG NINJA_VERSION=1.11.1
 ARG LIBTORCH_VERSION=2.3.0
-ARG CUDA_ARCH=8.9
+ARG OPENCV_VERSION=4.11.0
+ARG CUDA_ARCH=8.6
 
 RUN apt-get update && apt-get install -y \
     gdb \
@@ -132,7 +132,10 @@ RUN apt-get update && apt-get install -y \
     libmp3lame-dev \
     libvorbis-dev
 RUN mkdir -p opencv-build/build
-RUN cd opencv-build && git clone https://github.com/opencv/opencv.git && git clone https://github.com/opencv/opencv_contrib.git
+# Download OpenCV 4.11.0
+RUN cd opencv-build && wget https://github.com/opencv/opencv/archive/refs/tags/${OPENCV_VERSION}.zip \ 
+    && unzip ${OPENCV_VERSION}.zip && rm ${OPENCV_VERSION}.zip \
+    && git clone https://github.com/opencv/opencv_contrib.git
 RUN cd opencv-build/build && cmake \
     -D WITH_TBB=ON \
     -D ENABLE_FAST_MATH=1 \
@@ -141,7 +144,7 @@ RUN cd opencv-build/build && cmake \
     -D BUILD_opencv_cudacodec=OFF \
     -D WITH_CUDA=ON \
     -D WITH_CUDNN=ON \
-    -D CUDA_ARCH_BIN=${CUDA_ARCH}} \
+    -D CUDA_ARCH_BIN=${CUDA_ARCH} \
     -D CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda  \
     -D CUDNN_LIBRARY=/usr/lib/x86_64-linux-gnu/libcudnn.so \
     -D WITH_GTK=ON \
@@ -153,7 +156,7 @@ RUN cd opencv-build/build && cmake \
     -D INSTALL_C_EXAMPLES=OFF \
     -D BUILD_EXAMPLES=OFF \
     -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules \
-    ../opencv
+    ../opencv-${OPENCV_VERSION}
 RUN cd opencv-build/build && make -j$(nproc) && make install
 RUN rm -rf opencv-build 
 
