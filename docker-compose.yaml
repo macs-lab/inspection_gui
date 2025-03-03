@@ -77,7 +77,8 @@ services:
 
   ur_control:
     extends: devel
-    command: ros2 launch inspection_robot_service ur_control.launch.py ur_type:=ur5e robot_ip:=${ROBOT_IP:-192.168.1.102} launch_rviz:=false initial_joint_controller:=joint_trajectory_controller
+    command: ros2 launch inspection_robot_service ur_control.launch.py ur_type:=ur5e robot_ip:=${ROBOT_IP:-192.168.1.102} launch_rviz:=false initial_joint_controller:=forward_position_controller
+    # command: ros2 launch inspection_robot_service ur_control.launch.py ur_type:=ur5e robot_ip:=${ROBOT_IP:-192.168.1.102} launch_rviz:=false initial_joint_controller:=forward_velocity_controller
 
   ur_moveit:
     extends: devel

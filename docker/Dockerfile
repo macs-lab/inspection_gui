@@ -242,6 +242,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-${ROS_DISTRO}-joy
 
+# Install ROS Control Cli
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-${ROS_DISTRO}-ros2controlcli \
+    ros-${ROS_DISTRO}-rqt-controller-manager
+
 ARG DEBIAN_FRONTEND=dialog
 
 # Create base Colcon workspace with external dependencies

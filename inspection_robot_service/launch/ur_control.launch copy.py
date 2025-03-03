@@ -178,13 +178,8 @@ def launch_setup(context, *args, **kwargs):
     robot_description = {"robot_description": robot_description_content}
 
     initial_joint_controllers = PathJoinSubstitution(
-        [FindPackageShare("uw_cell_description"),
-         "config", "controllers.yaml"]
+        [FindPackageShare(runtime_config_package), "config", controllers_file]
     )
-
-    # initial_joint_controllers = PathJoinSubstitution(
-    #     [FindPackageShare(runtime_config_package), "config", controllers_file]
-    # )
 
     rviz_config_file = PathJoinSubstitution(
         [FindPackageShare(description_package), "rviz", "view_robot.rviz"]
@@ -272,7 +267,6 @@ def launch_setup(context, *args, **kwargs):
                     "force_torque_sensor_broadcaster",
                     "joint_state_broadcaster",
                     "speed_scaling_state_broadcaster",
-                    "forward_position_controller",
                 ]
             },
         ],
@@ -316,7 +310,7 @@ def launch_setup(context, *args, **kwargs):
         "speed_scaling_state_broadcaster",
         "force_torque_sensor_broadcaster",
     ]
-    controller_spawner_inactive_names = ["joint_trajectory_controller"]
+    controller_spawner_inactive_names = []
 
     controller_spawners = [controller_spawner(name) for name in controller_spawner_names] + [
         controller_spawner(name, active=False) for name in controller_spawner_inactive_names
@@ -471,17 +465,10 @@ def generate_launch_description():
             description="Timeout used when spawning controllers.",
         )
     )
-    # declared_arguments.append(
-    #     DeclareLaunchArgument(
-    #         "initial_joint_controller",
-    #         default_value="scaled_joint_trajectory_controller",
-    #         description="Initially loaded robot controller.",
-    #     )
-    # )
     declared_arguments.append(
         DeclareLaunchArgument(
             "initial_joint_controller",
-            default_value="forward_velocity_controller",
+            default_value="scaled_joint_trajectory_controller",
             description="Initially loaded robot controller.",
         )
     )
