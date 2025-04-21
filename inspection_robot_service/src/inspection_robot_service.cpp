@@ -5,6 +5,7 @@
 #include <moveit_msgs/msg/display_trajectory.h>
 #include <moveit/moveit_cpp/moveit_cpp.h>
 #include <moveit/moveit_cpp/planning_component.h>
+#include <moveit_msgs/msg/planning_scene.hpp>
 #include <geometry_msgs/msg/point_stamped.h>
 #include "inspection_srvs/srv/move_to_pose.hpp"
 #include <moveit_msgs/msg/attached_collision_object.hpp>
@@ -74,6 +75,55 @@ void addBox(const std::shared_ptr<moveit::planning_interface::PlanningSceneInter
     planning_scene_interface->applyAttachedCollisionObject(attached_object);
 }
 
+void addBoundingBoxWithTool0Collision(const std::shared_ptr<moveit::planning_interface::PlanningSceneInterface>& planning_scene_interface)
+{
+    // Define a collision object
+    moveit_msgs::msg::CollisionObject collision_object;
+    collision_object.header.frame_id = "world"; // Reference frame for the bounding box
+    collision_object.id = "bounding_box";
+
+    // Define the bounding box as a solid primitive
+    shape_msgs::msg::SolidPrimitive box_primitive;
+    box_primitive.type = shape_msgs::msg::SolidPrimitive::BOX;
+    box_primitive.dimensions.resize(3);
+    box_primitive.dimensions[0] = 1.0; // Length (x)
+    box_primitive.dimensions[1] = 1.0; // Width (y)
+    box_primitive.dimensions[2] = 1.0; // Height (z)
+
+    // Define the pose of the bounding box
+    geometry_msgs::msg::Pose box_pose;
+    box_pose.position.x = 0.75; // Center of the cube in x
+    box_pose.position.y = 0.0; // Center of the cube in y
+    box_pose.position.z = 0.5; // Center of the cube in z
+    box_pose.orientation.w = 1.0; // No rotation
+
+    // Add the primitive and pose to the collision object
+    collision_object.primitives.push_back(box_primitive);
+    collision_object.primitive_poses.push_back(box_pose);
+    collision_object.operation = moveit_msgs::msg::CollisionObject::ADD;
+
+    // Apply the collision object to the planning scene
+    planning_scene_interface->applyCollisionObject(collision_object);
+
+    // Modify the allowed collision matrix (ACM) to restrict collision checks to tool0
+    moveit_msgs::msg::PlanningScene planning_scene_msg;
+    planning_scene_msg.is_diff = true;
+
+    // Add the bounding box to the ACM
+    moveit_msgs::msg::AllowedCollisionMatrix& acm = planning_scene_msg.allowed_collision_matrix;
+    acm.entry_names.push_back("bounding_box");
+    moveit_msgs::msg::AllowedCollisionEntry entry;
+    entry.enabled.resize(1, false); // Disable collisions with all links by default
+    acm.entry_values.push_back(entry);
+
+    // Allow collision only with tool0
+    acm.entry_names.push_back("tool0");
+    acm.entry_values[0].enabled[0] = true; // Enable collision with tool0
+
+    // Apply the updated planning scene
+    planning_scene_interface->applyPlanningScene(planning_scene_msg);
+}
+
 void move_to_pose(const std::shared_ptr<inspection_srvs::srv::MoveToPose::Request> request,
                   std::shared_ptr<inspection_srvs::srv::MoveToPose::Response> response,
                   const std::shared_ptr<moveit::planning_interface::MoveGroupInterface>& move_group_interface)
@@ -135,6 +185,8 @@ int main(int argc, char** argv)
     // Box
     std::shared_ptr<moveit::planning_interface::PlanningSceneInterface> planning_scene_interface = 
         std::make_shared<moveit::planning_interface::PlanningSceneInterface>();
+
+    // addBoundingBoxWithTool0Collision(planning_scene_interface);
     
     addBox(planning_scene_interface);
     auto service = node->create_service<inspection_srvs::srv::MoveToPose>("/inspection/move_to_pose",  

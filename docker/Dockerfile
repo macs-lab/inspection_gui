@@ -1,6 +1,7 @@
 FROM nvidia/cuda:12.6.3-cudnn-devel-ubuntu22.04 as base
 SHELL ["/bin/bash", "-c"]
 
+ENV ROS_DISTRO=jazzy
 ARG GCC_VERSION=12
 ARG CLANG_VARION=17
 ARG CMAKE_VERSION=3.28.3
@@ -20,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 
-# Install ROS2 Humble
+# Install ROS2 $ROS_DISTRO
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install language
@@ -57,7 +58,7 @@ RUN sudo add-apt-repository universe \
     && curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null \
     && apt-get update && apt-get install -y --no-install-recommends \
-    ros-humble-desktop \
+    ros-$ROS_DISTRO-desktop \
     python3-argcomplete \
     && rm -rf /var/lib/apt/lists/*
 
@@ -179,12 +180,11 @@ ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute
 ENV QT_X11_NO_MITSHM=1
 
-ENV ROS_DISTRO=humble
-ENV AMENT_PREFIX_PATH=/opt/ros/humble
-ENV COLCON_PREFIX_PATH=/opt/ros/humble
-ENV LD_LIBRARY_PATH=/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib
-ENV PATH=/opt/ros/humble/bin:$PATH
-ENV PYTHONPATH=/opt/ros/humble/local/lib/python3.10/dist-packages:/opt/ros/humble/lib/python3.10/site-packages
+ENV AMENT_PREFIX_PATH=/opt/ros/$ROS_DISTRO
+ENV COLCON_PREFIX_PATH=/opt/ros/$ROS_DISTRO
+ENV LD_LIBRARY_PATH=/opt/ros/$ROS_DISTRO/lib/x86_64-linux-gnu:/opt/ros/$ROS_DISTRO/lib
+ENV PATH=/opt/ros/$ROS_DISTRO/bin:$PATH
+ENV PYTHONPATH=/opt/ros/$ROS_DISTRO/local/lib/python3.10/dist-packages:/opt/ros/$ROS_DISTRO/lib/python3.10/site-packages
 ENV ROS_PYTHON_VERSION=3
 ENV ROS_VERSION=2
 ENV ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET
@@ -262,7 +262,7 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash \
     && colcon build --symlink-install --executor sequential
 
 RUN apt-get update \
-    && apt-get install -y ros-humble-ur
+    && apt-get install -y ros-$ROS_DISTRO-ur
 
 #############################################
 # Overlay Image for Inspection Tool Control #

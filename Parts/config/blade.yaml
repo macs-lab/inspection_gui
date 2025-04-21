@@ -28,8 +28,8 @@ part:
     parent: world
     child: part_frame
     x: 0.8
-    y: 0
-    z: 0.35
+    y: 0.1
+    z: 0.1
     roll: 0
     pitch: 0
     yaw: -1.57 
